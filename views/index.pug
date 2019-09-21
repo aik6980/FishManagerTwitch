@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+  p= desc
+
+  div.col-xs-12#chatbox
+    h3 Chat Logs
+  div.input-group
+    input(type='text', class='form-control', placeholder='Username' autofocus)
+    span.input-group-btn
+      button(class='btn btn-default', type='button') Login
+  hr
+  p
+    a(href='https://github.com/hisener/ws-chat-example' target='_blank') GitHub repository
