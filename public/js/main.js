@@ -5,6 +5,9 @@ var client = new WebSocket(host)
 var textbox = document.getElementsByTagName('input')[0]
 var button = document.getElementsByTagName('button')[0]
 
+// give a user a random name,
+textbox.defaultValue = RandomNames.generate(1)[0];
+
 var ping_timer;
 
 client.onmessage = function (message) {
@@ -12,7 +15,7 @@ client.onmessage = function (message) {
     button.innerHTML = 'Send'
     textbox.placeholder = 'Write message'
     textbox.parentElement.className += ' has-success'
-    // also start ping timer to keep this client alive while Idle
+    // also start 10s ping timer to keep this client alive while Idle
     ping_timer = setInterval(onPingTime, 10000);
     return
   } else if (message.data === 'loginFailed') {
@@ -34,6 +37,7 @@ client.onmessage = function (message) {
 }
 
 function send () {
+  
   if (!textbox.value) return
 
   var message = {
