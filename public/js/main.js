@@ -5,11 +5,15 @@ var client = new WebSocket(host)
 var textbox = document.getElementsByTagName('input')[0]
 var button = document.getElementsByTagName('button')[0]
 
+var ping_timer;
+
 client.onmessage = function (message) {
   if (message.data === 'loginSuccess') {
     button.innerHTML = 'Send'
     textbox.placeholder = 'Write message'
     textbox.parentElement.className += ' has-success'
+    // also start ping timer to keep this client alive while Idle
+    ping_timer = setInterval(onPingTime, 10000);
     return
   } else if (message.data === 'loginFailed') {
     textbox.parentElement.className += ' has-error'
@@ -43,6 +47,15 @@ function send () {
 
   client.send(JSON.stringify(message))
   textbox.value = ''
+}
+
+function onPingTime() {
+  var message = {
+    type: 'ping',
+    data: ''
+  }
+
+  client.send(JSON.stringify(message))
 }
 
 button.onclick = send

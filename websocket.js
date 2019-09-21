@@ -40,6 +40,9 @@ module.exports = (server) => {
         case 'message':
           wss.broadcast('@' + socket.username + ': ' + message.data)
           break
+        case 'ping':
+          console.log('@' + socket.username + ' ping');
+          break
       }
     })
 
